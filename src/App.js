@@ -1,23 +1,28 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import ProductTable from './components/ProductTable/ProductTable';
 
 function App() {
+
+  const [products, setProducts] = useState([]);  // create state variable
+
+  useEffect(() => { // use useEffect to get products from web API
+
+    fetch("https://localhost:8000/product")  // fetch will send a response to backend and return a promise
+    .then((resp) => resp.json())             // will get that promise, callback function will be called, and that response object has a metod(JSON) and will return a new promise
+    .then((products) => setProducts(products)); // will get that new promise, callback function will be called, and put products in setProducts
+
+  }, []); //[] <-- so we will only do the useEffect one time
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Product Manager</h1>
+
+
+
+      <ProductTable products={products}/>
+      
     </div>
   );
 }
