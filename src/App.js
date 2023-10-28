@@ -1,10 +1,14 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import './App.css';
 import ProductTable from './components/ProductTable/ProductTable';
 
+
 function App() {
 
   const [products, setProducts] = useState([]);  // create state variable
+
+  const [isShown , setIsShown] = useState(false);
 
   useEffect(() => { // use useEffect to get products from web API
 
@@ -14,14 +18,24 @@ function App() {
 
   }, []); //[] <-- so we will only do the useEffect one time
 
+   const handleClick = event => {
+    setIsShown(current => !current);
+   }
 
   return (
     <div className="App">
       <h1>Product Manager</h1>
 
+  
+      <button>Sök produkt</button>
 
 
-      <ProductTable products={products}/>
+
+    
+
+
+      <button onClick={handleClick}>Se Alla Produkter</button>
+      {isShown && <ProductTable products={products}/>}
       
     </div>
   );

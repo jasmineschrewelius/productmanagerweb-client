@@ -15,7 +15,7 @@ const ProductTable = ({ products }) => { // gets props (products)
         </tr>
         </thead>
         <tbody>
-            { products.map(product => (
+            {products.map(product => (
                 <tr key={product.id}>
                     <td>{product.name}</td>
                     <td>{product.sku}</td>
