@@ -1,0 +1,9 @@
+.productform  {
+    margin-top: 30px;
+}
+.productform div {
+    margin: 20px;
+}
+label {
+    display: block;
+}

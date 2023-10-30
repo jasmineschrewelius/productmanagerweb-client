@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import './App.css';
 import ProductTable from './components/ProductTable/ProductTable';
+import ProductForm from './components/ProductForm/ProductForm';
 
 
 function App() {
@@ -18,7 +19,25 @@ function App() {
 
   }, []); //[] <-- so we will only do the useEffect one time
 
-   const handleClick = event => {
+  const addProduct = (product) => { // add product to our list
+
+    fetch("https://localhost:8000/product", {  // use fetch to create post call to API
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(product) // make product into json
+        })
+        .then((resp) => resp.json())  // will convert json javascript object
+        .then((product) => {
+          setProducts([ ...products, product]); // setproducts, take the current state of products and replace it with the new state
+        });
+
+     
+  }
+
+
+  const handleClick = event => {
     setIsShown(current => !current);
    }
 
@@ -26,17 +45,31 @@ function App() {
     <div className="App">
       <h1>Product Manager</h1>
 
-  
-      <button>Sök produkt</button>
+    <div className="Menu">
 
+      <div>
+        <button>
+          Add Product
+        </button>
+      </div>
 
+      <div>
+        <button>
+          Search Product
+        </button>
+      </div>
 
-    
+      <div>
+        <button onClick={handleClick}>
+          Se Alla Produkter
+          </button>
+          {isShown && <ProductTable products={products}/>}
+      </div>
 
+    </div>
 
-      <button onClick={handleClick}>Se Alla Produkter</button>
-      {isShown && <ProductTable products={products}/>}
-      
+    <ProductForm onAdd={addProduct} />
+
     </div>
   );
 }
