@@ -7,9 +7,11 @@ import ProductForm from './components/ProductForm/ProductForm';
 
 function App() {
 
-  const [products, setProducts] = useState([]);  // create state variable
+  const [products, setProducts] = useState([]);  // set first state
 
-  const [isShown , setIsShown] = useState(false);
+  const [isShown , setIsShown] = useState(false); // set first state
+
+  const [isVisible , setIsVisible] = useState(false); // set first state
 
   useEffect(() => { // use useEffect to get products from web API
 
@@ -31,15 +33,27 @@ function App() {
         .then((resp) => resp.json())  // will convert json javascript object
         .then((product) => {
           setProducts([ ...products, product]); // setproducts, take the current state of products and replace it with the new state
-        });
-
-     
-  }
+        }); 
+      };
 
 
-  const handleClick = event => {
-    setIsShown(current => !current);
-   }
+  const handleClickSee = (event) => { // when "see all products" button is pressed, show 
+    setIsShown(current => !current); // change the state
+  };
+
+  const handleClickAdd = (event) => { // when "Add Product" button is pressed, show 
+    setIsVisible(current => !current); // change the state
+  };
+
+  const handleOnDelete = (productId) => { // take the id of the product chosen
+
+    fetch(`https://localhost:8000/product/${productId}`, {  // use fetch to create delete call to API
+            method: "delete",
+        }).then((resp) => {
+          const newProducts = products.filter(x => x.id != productId); // create array and filter away the productId from list
+          setProducts(newProducts); // setproducts with newProducts
+        }); 
+  };
 
   return (
     <div className="App">
@@ -48,27 +62,28 @@ function App() {
     <div className="Menu">
 
       <div>
-        <button>
+        <button className="btn" onClick={handleClickAdd}>
           Add Product
         </button>
       </div>
 
       <div>
-        <button>
+        <button className="btn" >
           Search Product
         </button>
       </div>
 
       <div>
-        <button onClick={handleClick}>
-          Se Alla Produkter
-          </button>
-          {isShown && <ProductTable products={products}/>}
+        <button className="btn" onClick={handleClickSee}>
+          See All Products
+        </button>
       </div>
 
     </div>
 
-    <ProductForm onAdd={addProduct} />
+    {isVisible && <ProductForm onAdd={addProduct} />}
+
+    {isShown && <ProductTable products={products} onDelete={handleOnDelete}/>}
 
     </div>
   );

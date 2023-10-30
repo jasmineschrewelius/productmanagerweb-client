@@ -2,7 +2,7 @@ import './ProductTable.css';
 import React from 'react';
 
 
-const ProductTable = ({ products }) => { // gets props (products)
+const ProductTable = ({ products, onDelete }) => { // gets props (products)
   return (
     <table>
         <thead>
@@ -12,6 +12,7 @@ const ProductTable = ({ products }) => { // gets props (products)
             <th>Beskrivning</th>
             <th>Bild</th>
             <th>Pris</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -22,6 +23,9 @@ const ProductTable = ({ products }) => { // gets props (products)
                     <td>{product.description}</td>
                     <td>{product.picture}</td>
                     <td>{product.price}</td>
+                    <td>
+                        <button onClick={e => onDelete(product.id)}>Delete</button>
+                    </td>
                 </tr>
             ))}
 
