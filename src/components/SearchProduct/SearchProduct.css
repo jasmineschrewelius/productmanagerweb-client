@@ -1,3 +1,14 @@
-h1 {
+.searchinput {
+    display: flex;
+    flex-direction: column;
+    margin: 100px;
+    align-items: center;
+}
+.searchform {
+    display: flex;
+    gap: 10px;
+}
+.results {
+    margin-top: 50px;
     text-align: center;
 }

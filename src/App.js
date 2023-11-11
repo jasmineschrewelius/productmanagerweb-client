@@ -3,15 +3,18 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import ProductTable from './components/ProductTable/ProductTable';
 import ProductForm from './components/ProductForm/ProductForm';
+import SearchProduct from './components/SearchProduct/SearchProduct';
 
 
 function App() {
 
   const [products, setProducts] = useState([]);  // set first state
 
-  const [isShown , setIsShown] = useState(false); // set first state
+  const [isShownAdd , setIsShownAdd] = useState(false); // set first state to Add
 
-  const [isVisible , setIsVisible] = useState(false); // set first state
+  const [isShownSearch , setIsShownSearch] = useState(false); // set first state to Search
+
+  const [isShownSee , setIsShownSee] = useState(false); // set first state to See
 
   useEffect(() => { // use useEffect to get products from web API
 
@@ -37,12 +40,16 @@ function App() {
       };
 
 
-  const handleClickSee = (event) => { // when "see all products" button is pressed, show 
-    setIsShown(current => !current); // change the state
+  const handleClickAdd = (event) => { // when "Add Product" button is pressed, show 
+    setIsShownSee(current => !current); // change the state
   };
 
-  const handleClickAdd = (event) => { // when "Add Product" button is pressed, show 
-    setIsVisible(current => !current); // change the state
+  const handleClickSearch = (event) => { // when "Search Product" button is pressed, show
+    setIsShownSearch(current => !current); // change the state
+  }
+
+  const handleClickSee = (event) => { // when "see all products" button is pressed, show 
+    setIsShownAdd(current => !current); // change the state
   };
 
   const handleOnDelete = (productId) => { // take the id of the product chosen
@@ -68,7 +75,7 @@ function App() {
       </div>
 
       <div>
-        <button className="btn" >
+        <button className="btn" onClick={handleClickSearch}>
           Search Product
         </button>
       </div>
@@ -81,9 +88,16 @@ function App() {
 
     </div>
 
-    {isVisible && <ProductForm onAdd={addProduct} />}
 
-    {isShown && <ProductTable products={products} onDelete={handleOnDelete}/>}
+    {isShownAdd && <ProductTable products={products} onDelete={handleOnDelete}/>}
+
+    {isShownSearch && <SearchProduct products={products} />}
+
+    {isShownSee && <ProductForm onAdd={addProduct} />}
+
+    
+
+    
 
     </div>
   );
