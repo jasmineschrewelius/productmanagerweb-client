@@ -35,12 +35,12 @@ function App() {
       body:JSON.stringify(product)
     })
     .then(function(response) {
-      if (!response.ok){
-        throw alert("Unvaild information, product not saved");
+      if (!response.ok){                                        // if the response is not OK
+        throw alert("Unvaild information, product not saved");  // alert to user product not saved
       }
-      return response.json();
+      return response.json();                                   // if response is OK, convert to JSON
     }).then(function(response) {
-      alert("Ok, product saved");
+      alert("Ok, product saved");                                // alert product saved
     }).then((product) => {
       setProducts([ ...products, product])
     }).catch(function(error) {
@@ -48,11 +48,6 @@ function App() {
     });  
     
   };
-
-  
-
-  
-
 
   const handleClickAdd = () => { // when "Add Product" button is pressed, show 
     setIsShownSee(current => !current); // change the state

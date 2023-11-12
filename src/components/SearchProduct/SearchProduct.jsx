@@ -3,7 +3,7 @@ import './SearchProduct.css';
 
 const SearchProduct = ({ products, onDelete }) => {
 
-  const [productsku, setProductSku] = useState([]); // set first state
+  const [sku, setSku] = useState([]); // set first state
 
   const [product, setProducts] = useState([]); 
 
@@ -11,13 +11,16 @@ const SearchProduct = ({ products, onDelete }) => {
 
   const [isNotFound, setIsNotFound] = useState(false); 
 
+
   const handleSubmit = (event) => { // when button is pressed
+
     event.preventDefault();   // prevent the page from reloadning
 
-    const product = products.filter(x => x.sku == productsku); // create array and filter to select the choosen SKU
+    const product = products.filter(x => x.sku == sku); // create array and filter to select the choosen SKU
 
     setProducts(product); // set the new state
   };
+  
 
   useEffect(() => {  // check if results where found or not
     if (product.length > 0)
@@ -39,7 +42,7 @@ const SearchProduct = ({ products, onDelete }) => {
       <form className="searchform" onSubmit={handleSubmit}>
         <label htmlFor="name"> SKU: </label>
         
-        <input type="text" id="sku" name="sku" value={productsku} onChange={(event) => setProductSku(event.target.value)} />
+        <input type="text" id="sku" name="sku" value={sku} onChange={(event) => setSku(event.target.value)} />
 
         <button>
           Search
