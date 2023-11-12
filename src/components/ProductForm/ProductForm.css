@@ -1,9 +1,15 @@
 .productform  {
-    margin-top: 30px;
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
 }
-.productform div {
-    margin: 20px;
+.productform input, textarea{
+    border: 2px solid black;
+    padding: 5px;
 }
+
 label {
     display: block;
 }

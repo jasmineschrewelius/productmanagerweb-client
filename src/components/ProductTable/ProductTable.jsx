@@ -24,7 +24,7 @@ const ProductTable = ({ products, onDelete }) => { // gets props (products)
                     <td>{product.picture}</td>
                     <td>{product.price}</td>
                     <td>
-                        <button onClick={e => onDelete(product.id)}>Delete</button>
+                        <button onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) onDelete(product.sku)}}> Delete</button>
                     </td>
                 </tr>
             ))}
@@ -34,4 +34,4 @@ const ProductTable = ({ products, onDelete }) => { // gets props (products)
   );
 }
 
-export default ProductTable
+export default ProductTable;

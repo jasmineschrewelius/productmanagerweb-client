@@ -24,42 +24,58 @@ function App() {
 
   }, []); //[] <-- so we will only do the useEffect one time
 
+
   const addProduct = (product) => { // add product to our list
 
-    fetch("https://localhost:8000/product", {  // use fetch to create post call to API
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(product) // make product into json
-        })
-        .then((resp) => resp.json())  // will convert json javascript object
-        .then((product) => {
-          setProducts([ ...products, product]); // setproducts, take the current state of products and replace it with the new state
-        }); 
-      };
+    fetch("https://localhost:8000/product", {
+      method:"post",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify(product)
+    })
+    .then(function(response) {
+      if (!response.ok){
+        throw alert("Unvaild information, product not saved");
+      }
+      return response.json();
+    }).then(function(response) {
+      alert("Ok, product saved");
+    }).then((product) => {
+      setProducts([ ...products, product])
+    }).catch(function(error) {
+      console.log("Unvaild information som user, 400 bad request");
+    });  
+    
+  };
+
+  
+
+  
 
 
-  const handleClickAdd = (event) => { // when "Add Product" button is pressed, show 
+  const handleClickAdd = () => { // when "Add Product" button is pressed, show 
     setIsShownSee(current => !current); // change the state
   };
 
-  const handleClickSearch = (event) => { // when "Search Product" button is pressed, show
+  const handleClickSearch = () => { // when "Search Product" button is pressed, show
     setIsShownSearch(current => !current); // change the state
-  }
+  };
 
-  const handleClickSee = (event) => { // when "see all products" button is pressed, show 
+  const handleClickSee = () => { // when "see all products" button is pressed, show 
     setIsShownAdd(current => !current); // change the state
   };
 
-  const handleOnDelete = (productId) => { // take the id of the product chosen
+  const handleOnDelete = (sku) => { // take the id of the product chosen
 
-    fetch(`https://localhost:8000/product/${productId}`, {  // use fetch to create delete call to API
+    fetch(`https://localhost:8000/product/${sku}`, {  // use fetch to create delete call to API
             method: "delete",
         }).then((resp) => {
-          const newProducts = products.filter(x => x.id != productId); // create array and filter away the productId from list
+          const newProducts = products.filter(x => x.sku != sku); // create array and filter away the productId from list
           setProducts(newProducts); // setproducts with newProducts
         }); 
+
+    alert("Product deleted")    
   };
 
   return (
@@ -91,16 +107,14 @@ function App() {
 
     {isShownAdd && <ProductTable products={products} onDelete={handleOnDelete}/>}
 
-    {isShownSearch && <SearchProduct products={products} />}
+    {isShownSearch && <SearchProduct products={products} onDelete={handleOnDelete} />}
 
     {isShownSee && <ProductForm onAdd={addProduct} />}
 
-    
-
-    
 
     </div>
   );
 }
+
 
 export default App;

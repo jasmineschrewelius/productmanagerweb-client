@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './SearchProduct.css';
 
-const SearchProduct = ({ products }) => {
+const SearchProduct = ({ products, onDelete }) => {
 
   const [productsku, setProductSku] = useState([]); // set first state
 
@@ -13,8 +13,6 @@ const SearchProduct = ({ products }) => {
 
   const handleSubmit = (event) => { // when button is pressed
     event.preventDefault();   // prevent the page from reloadning
-
-    console.log(productsku);
 
     const product = products.filter(x => x.sku == productsku); // create array and filter to select the choosen SKU
 
@@ -49,7 +47,7 @@ const SearchProduct = ({ products }) => {
       </form>
 
       <div className="results">
-        {isFound && 
+        {isFound &&
         <table>
           <thead>
             <tr>
@@ -69,6 +67,9 @@ const SearchProduct = ({ products }) => {
               <td>{product.description}</td>
               <td>{product.picture}</td>
               <td>{product.price}</td>
+              <td>
+              <button onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) onDelete(product.sku)}}> Delete</button>
+              </td>
             </tr>
             ))}
           </tbody>
